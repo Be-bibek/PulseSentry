@@ -24,17 +24,18 @@ router.post('/analyze/:alertId', async (req, res) => {
 
     // Ensure we don't crash if Gemini API key isn't provided
     if (!process.env.GEMINI_API_KEY) {
-        const mockDiagnosis = `### Simulated Root Cause Analysis
-**Diagnosis**: Based on the metrics, this appears to be a runaway process consuming excessive resources on \`${hostData?.hostname || 'the host'}\`.
-**Confidence**: 85%
+        const mockDiagnosis = `### Simulated Clinical Root Cause Analysis
+**Diagnosis**: EMR Database transaction queue deadlock (HL7 transmission backlog) detected on \`${hostData?.hostname || 'emr-database-main'}\`.
+**Uptime Impact**: Moderate - HL7 buffer queue holding 1,500 pending patient record syncs.
+**Confidence**: 92%
 
 **Recommended Action Steps**:
-1. SSH into the server: \`ssh user@${hostData?.hostname || 'server'}\`
-2. Identify the exact PID: \`top -o %CPU\` or \`htop\`
-3. Restart the offending service or gracefully kill the process: \`kill -15 <PID>\`
-4. Inspect the application logs in \`/var/log/app.log\` around the time of the incident.
+1. SSH into EMR server: \`ssh administrator@${hostData?.hostname || 'emr-database-main'}\`
+2. Run database analyzer to find HIPAA log query locks: \`grep -i "LOCK" /var/log/emr-db-audit.log | tail -n 20\`
+3. Force restart the HL7 message gateway thread: \`systemctl restart hl7-broker-daemon.service\`
+4. Optimize database index parameters for EMR search collections.
 
-*Note: You are seeing this mock response because GEMINI_API_KEY is not set in your environment variables.*`;
+*Note: You are seeing this clinical template because GEMINI_API_KEY is not set in your environment variables.*`;
         
         if (alertData.save) {
             alertData.aiDiagnosis = mockDiagnosis;
@@ -46,14 +47,14 @@ router.post('/analyze/:alertId', async (req, res) => {
     // Call Gemini
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     
-    const prompt = `You are PulseSentry, an expert DevOps and SRE AI assistant. Analyze the following server alert incident and provide a Root Cause Analysis (RCA) and actionable debugging steps in Markdown format.
+    const prompt = `You are PulseSentry Health, an expert Healthcare IT, Clinical Systems, and SRE AI assistant. Analyze the following medical server infrastructure alert incident and provide a Root Cause Analysis (RCA) and actionable debugging steps in Markdown format.
 
 Host: ${hostData?.hostname}
 OS: ${JSON.stringify(hostData?.osInfo || {})}
 Alert Message: ${alertData.message}
 Metrics Snapshot: ${JSON.stringify(alertData.metricsSnapshot || {})}
 
-Provide a professional, concise diagnosis and concrete bash commands to fix or investigate the issue.`;
+Provide a professional, concise clinical systems diagnosis (considering HIPAA compliance guidelines, HL7 formats, PACS DICOM constraints) and concrete bash commands to fix or investigate the issue.`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;

@@ -1,28 +1,35 @@
 import { useState } from 'react';
 import { AlertTriangle, Sparkles, Check, ChevronRight } from 'lucide-react';
+import { useTelemetry } from '../context/TelemetryContext';
 
 export default function IncidentCenter() {
-  const [incidents, setIncidents] = useState([
-    { id: 'INC-901', host: 'db-master-01', rule: 'CPU > 90%', time: '2 mins ago', status: 'active', rca: null },
-    { id: 'INC-892', host: 'web-prod-02', rule: 'Memory > 85%', time: '1 hour ago', status: 'resolved', rca: 'Memory leak in worker thread. Restarted process.' }
-  ]);
-  
+  const { incidents, resolveIncident } = useTelemetry();
+  const [selectedId, setSelectedId] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [activeRca, setActiveRca] = useState(null);
 
   const triggerRca = (id) => {
+    setSelectedId(id);
     setAnalyzing(true);
     setTimeout(() => {
       setAnalyzing(false);
-      setActiveRca(`### Automated Gemini RCA
-Based on the metrics buffer, \`db-master-01\` experienced a massive CPU spike due to an un-indexed query scanning 40M rows in the users collection.
+      if (id === 'INC-HL7-402') {
+        setActiveRca(`### Automated Gemini Clinical RCA
+Based on the telemetry metrics buffer, \`emr-database-main\` experienced a deadlock due to un-indexed HIPAA audit log queries scanning 40M patient records.
 
 **Action Required:**
-1. Connect to mongo shell.
-2. Run \`db.users.createIndex({ "email": 1 })\`
-3. Kill long-running ops: \`db.currentOp().inprog.forEach(op => db.killOp(op.opid))\``);
-      
-      setIncidents(prev => prev.map(i => i.id === id ? { ...i, rca: 'Generated' } : i));
+1. Access the main records DB: \`ssh administrator@emr-database-main\`
+2. Apply the missing query index: \`db.audit_logs.createIndex({ "patientId": 1 })\`
+3. Force restart the HL7 message gateway thread: \`systemctl restart hl7-broker-daemon.service\``);
+      } else {
+        setActiveRca(`### Automated Gemini Clinical RCA
+The PACS imaging server \`pacs-imaging-mri\` experienced memory saturation during a high-resolution 3D CT scan batch processing run.
+
+**Action Required:**
+1. SSH into the storage cluster: \`ssh administrator@pacs-imaging-mri\`
+2. Flush the local DICOM spooler buffer: \`rm -rf /var/spool/dicom/tmp/*\`
+3. Restart the PACS transmission broker: \`systemctl restart pacs-tx-daemon.service\``);
+      }
     }, 2000);
   };
 
@@ -84,7 +91,10 @@ Based on the metrics buffer, \`db-master-01\` experienced a massive CPU spike du
                   })}
                 </div>
                 <div className="pt-6">
-                   <button className="bg-green-500 hover:bg-green-600 text-black font-bold px-4 py-2 rounded flex items-center gap-2">
+                   <button 
+                     onClick={() => { resolveIncident(selectedId); setActiveRca(null); }}
+                     className="bg-green-500 hover:bg-green-600 text-black font-bold px-4 py-2 rounded flex items-center gap-2"
+                   >
                      <Check className="w-4 h-4" /> Mark Incident Resolved
                    </button>
                 </div>

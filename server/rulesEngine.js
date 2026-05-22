@@ -53,11 +53,22 @@ export const startRulesEngine = (io) => {
                         });
 
                         if (!existingAlert) {
+                            let alertMsg = `Threshold Exceeded: ${rule.metric.toUpperCase()} is at ${valueToEvaluate.toFixed(2)}% (Rule: > ${rule.threshold}%)`;
+                            if (host.hostname === 'emr-database-main') {
+                              alertMsg = rule.metric === 'cpu'
+                                ? `INC-HL7-402: HL7 message sync queue bottleneck (EMR CPU load at ${valueToEvaluate.toFixed(2)}%)`
+                                : `EMR database cache pool exhaust warning (Active memory at ${valueToEvaluate.toFixed(2)}%)`;
+                            } else if (host.hostname === 'pacs-imaging-mri') {
+                              alertMsg = rule.metric === 'cpu'
+                                ? `INC-PACS-911: DICOM transmission buffer overflow (PACS CPU load at ${valueToEvaluate.toFixed(2)}%)`
+                                : `PACS frame-buffer memory spool limits breached (Active memory at ${valueToEvaluate.toFixed(2)}%)`;
+                            }
+
                             const newAlert = new AlertHistory({
                                 workspaceId: rule.workspaceId,
                                 hostId,
                                 ruleId: rule._id,
-                                message: `Threshold Exceeded: ${rule.metric.toUpperCase()} is at ${valueToEvaluate.toFixed(2)}% (Rule: > ${rule.threshold}%)`,
+                                message: alertMsg,
                                 metricsSnapshot: latest
                             });
                             await newAlert.save();

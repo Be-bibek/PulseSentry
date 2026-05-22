@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const connectDB = async () => {
   try {
     const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/pulsesentry';
-    await mongoose.connect(mongoURI);
+    await mongoose.connect(mongoURI, { serverSelectionTimeoutMS: 5000 });
     console.log(`MongoDB Connected: ${mongoose.connection.host}`);
   } catch (error) {
     console.warn(`MongoDB Connection Failed: ${error.message}`);

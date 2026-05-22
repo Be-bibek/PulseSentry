@@ -4,6 +4,7 @@ import DashboardOverview from './pages/DashboardOverview';
 import HostMetrics from './pages/HostMetrics';
 import IncidentCenter from './pages/IncidentCenter';
 import AlertsConfig from './pages/AlertsConfig';
+import HospitalManagement from './pages/HospitalManagement';
 import Layout from './components/Layout';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="host/:hostId" element={<HostMetrics />} />
           <Route path="incidents" element={<IncidentCenter />} />
           <Route path="alerts" element={<AlertsConfig />} />
+          <Route path="hms" element={<HospitalManagement />} />
         </Route>
       </Routes>
     </BrowserRouter>

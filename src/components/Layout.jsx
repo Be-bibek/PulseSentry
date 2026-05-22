@@ -1,25 +1,28 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Activity, Server, AlertTriangle, Settings, Menu } from 'lucide-react';
+import { Heart, Server, AlertTriangle, Settings, Menu, Activity } from 'lucide-react';
+import { TelemetryProvider } from '../context/TelemetryContext';
 
 export default function Layout() {
   const location = useLocation();
   
   const navItems = [
-    { name: 'Dashboard', path: '/app', icon: <Activity className="w-5 h-5" /> },
-    { name: 'Incidents', path: '/app/incidents', icon: <AlertTriangle className="w-5 h-5" /> },
-    { name: 'Alert Rules', path: '/app/alerts', icon: <Settings className="w-5 h-5" /> },
+    { name: 'Clinical Deck', path: '/app', icon: <Heart className="w-5 h-5" /> },
+    { name: 'HMS Operations', path: '/app/hms', icon: <Activity className="w-5 h-5" /> },
+    { name: 'Incidents Tracker', path: '/app/incidents', icon: <AlertTriangle className="w-5 h-5" /> },
+    { name: 'Vital Rules', path: '/app/alerts', icon: <Settings className="w-5 h-5" /> },
   ];
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white flex">
+    <TelemetryProvider>
+      <div className="min-h-screen bg-[#09090b] text-white flex">
       {/* Sidebar */}
       <div className="w-64 border-r border-white/10 bg-black/20 flex flex-col">
         <div className="p-6">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold">
-            <div className="w-8 h-8 rounded bg-primary flex items-center justify-center">
-              <Activity className="text-white w-5 h-5" />
+            <div className="w-8 h-8 rounded bg-emerald-600 flex items-center justify-center">
+              <Heart className="text-white w-5 h-5 animate-pulse" />
             </div>
-            <span className="glowing-text">PulseSentry</span>
+            <span className="glowing-text text-emerald-400">PulseSentry Health</span>
           </Link>
         </div>
         
@@ -29,7 +32,7 @@ export default function Layout() {
               key={item.name}
               to={item.path}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                location.pathname === item.path ? 'bg-primary/20 text-primary border border-primary/30' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                location.pathname === item.path ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
             >
               {item.icon}
@@ -37,6 +40,7 @@ export default function Layout() {
             </Link>
           ))}
         </nav>
+
         
         <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3">
@@ -71,5 +75,6 @@ export default function Layout() {
         </main>
       </div>
     </div>
-  );
+  </TelemetryProvider>
+);
 }

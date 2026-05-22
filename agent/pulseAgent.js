@@ -4,7 +4,7 @@ import si from 'systeminformation';
 // Configuration
 // In production, these would be read from process.env
 const WORKSPACE_ID = process.env.PULSE_WORKSPACE_ID || 'mock_ws';
-const HOST_ID = process.env.PULSE_HOST_ID || 'mock_host';
+const HOST_ID = process.env.PULSE_HOST_ID || 'emr-database-main';
 const SERVER_URL = process.env.PULSE_SERVER_URL || 'http://localhost:5000';
 
 const socket = io(SERVER_URL);
