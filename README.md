@@ -1,6 +1,19 @@
-# 🛡️ PulseSentry | Real-Time APM & Infrastructure Monitoring Platform
+# 🛡️ PulseSentry Health | Real-Time APM & Infrastructure Monitoring Platform
 
-PulseSentry is a production-grade, real-time Application Performance Monitoring (APM) and server infrastructure surveillance platform built on the MERN stack. Designed with system engineering principles in mind, it provides low-latency telemetry streaming, threshold-based incident alerting, and Google Gemini AI-powered root cause analysis (RCA).
+PulseSentry Health is a production-grade, real-time Application Performance Monitoring (APM) and server infrastructure surveillance platform built on the MERN stack. Designed with system engineering principles in mind, it provides low-latency telemetry streaming, threshold-based incident alerting, and Google Gemini AI-powered root cause analysis (RCA).
+
+---
+
+## 📸 UI Showcase
+
+### 🌟 Landing Page (Light Mode)
+![Landing Page](public/screenshots/landing_page_light.png)
+
+### 🏥 Clinical Deck Dashboard (Light Mode)
+![Clinical Deck](public/screenshots/clinical_deck_light.png)
+
+### 📊 Hospital Management Operations (Dark Mode)
+![HMS Operations](public/screenshots/hms_operations_dark.png)
 
 ---
 
