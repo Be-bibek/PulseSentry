@@ -61,29 +61,29 @@ export default function HospitalManagement() {
       {/* Stats Summary */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="glass-panel p-5 rounded-xl border-l-4 border-l-emerald-500">
-          <div className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-1">Total Admissions</div>
-          <div className="text-3xl font-extrabold text-white flex items-baseline gap-2">
-            {patients.length} <span className="text-xs text-gray-500 font-medium">Patients active</span>
+          <div className="text-muted text-xs font-semibold uppercase tracking-wider mb-1">Total Admissions</div>
+          <div className="text-3xl font-extrabold text-foreground flex items-baseline gap-2">
+            {patients.length} <span className="text-xs text-muted font-medium">Patients active</span>
           </div>
         </div>
         <div className="glass-panel p-5 rounded-xl border-l-4 border-l-purple-500">
-          <div className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-1">ICU Bed Occupancy</div>
-          <div className="text-3xl font-extrabold text-white flex items-baseline gap-2">
-            {Math.round((icuOccupied / 8) * 100)}% <span className="text-xs text-gray-500 font-medium">({icuOccupied}/8 Beds)</span>
+          <div className="text-muted text-xs font-semibold uppercase tracking-wider mb-1">ICU Bed Occupancy</div>
+          <div className="text-3xl font-extrabold text-foreground flex items-baseline gap-2">
+            {Math.round((icuOccupied / 8) * 100)}% <span className="text-xs text-muted font-medium">({icuOccupied}/8 Beds)</span>
           </div>
         </div>
         <div className="glass-panel p-5 rounded-xl border-l-4 border-l-red-500">
-          <div className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-1">Critical Vitals Alerts</div>
-          <div className="text-3xl font-extrabold text-red-400 flex items-center gap-2">
+          <div className="text-muted text-xs font-semibold uppercase tracking-wider mb-1">Critical Vitals Alerts</div>
+          <div className="text-3xl font-extrabold text-red-600 dark:text-red-400 flex items-center gap-2">
             {criticalPatients} 
-            {criticalPatients > 0 && <ShieldAlert className="w-5 h-5 animate-bounce text-red-400" />}
+            {criticalPatients > 0 && <ShieldAlert className="w-5 h-5 animate-bounce text-red-500 dark:text-red-400" />}
           </div>
         </div>
         <div className="glass-panel p-5 rounded-xl border-l-4 border-l-blue-500">
-          <div className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-1">Active PACS Scans</div>
-          <div className="text-3xl font-extrabold text-blue-400 flex items-center gap-2">
+          <div className="text-muted text-xs font-semibold uppercase tracking-wider mb-1">Active PACS Scans</div>
+          <div className="text-3xl font-extrabold text-blue-600 dark:text-blue-400 flex items-center gap-2">
             {dicomScan.scanning ? (
-              <span className="flex items-center gap-2 text-xl font-bold animate-pulse text-blue-400">
+              <span className="flex items-center gap-2 text-xl font-bold animate-pulse text-blue-600 dark:text-blue-400">
                 <Loader2 className="w-5 h-5 animate-spin" /> In Progress ({dicomScan.progress}%)
               </span>
             ) : 'Idle'}
@@ -96,9 +96,9 @@ export default function HospitalManagement() {
         <div className="lg:col-span-2 space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold flex items-center gap-2">
-              <Activity className="w-5 h-5 text-emerald-400" /> Patient Vitals Monitor (ICU / Wards)
+              <Activity className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Patient Vitals Monitor (ICU / Wards)
             </h2>
-            <span className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full animate-pulse">
+            <span className="text-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full animate-pulse">
               Live updates via HL7 stream
             </span>
           </div>
@@ -109,46 +109,46 @@ export default function HospitalManagement() {
                 key={p.id} 
                 className={`glass-panel p-5 rounded-xl border relative transition-all duration-300 ${
                   p.status === 'danger' 
-                    ? 'border-red-500/40 bg-red-950/10 shadow-[0_0_15px_rgba(239,68,68,0.1)]' 
+                    ? 'border-red-500/40 bg-red-500/5 shadow-[0_0_15px_rgba(239,68,68,0.05)]' 
                     : p.status === 'warning'
-                    ? 'border-yellow-500/30 bg-yellow-950/5'
-                    : 'border-white/5 hover:border-emerald-500/30'
+                    ? 'border-yellow-500/30 bg-yellow-500/5'
+                    : 'border-border hover:border-emerald-500/30'
                 }`}
               >
                 {/* Bed Badge */}
-                <div className={`absolute top-4 right-4 px-2 py-0.5 rounded text-xxs font-bold uppercase ${
+                <div className={`absolute top-4 right-4 px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                   p.status === 'danger' 
-                    ? 'bg-red-500/20 text-red-400 border border-red-500/30' 
-                    : 'bg-white/10 text-gray-300'
+                    ? 'bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30' 
+                    : 'bg-foreground/10 text-muted'
                 }`}>
                   {p.bed}
                 </div>
 
                 <div className="mb-4">
-                  <h3 className="font-bold text-lg text-gray-200">{p.name}</h3>
-                  <div className="text-xs text-gray-500">ID: {p.id} • Age: {p.age} • {p.condition}</div>
+                  <h3 className="font-bold text-lg text-foreground">{p.name}</h3>
+                  <div className="text-xs text-muted">ID: {p.id} • Age: {p.age} • {p.condition}</div>
                 </div>
 
                 {/* Vitals Grid */}
-                <div className="grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
+                <div className="grid grid-cols-2 gap-4 border-t border-border pt-4">
                   {/* Heart Rate */}
                   <div className="space-y-1">
-                    <div className="text-xs text-gray-500 flex items-center gap-1">
+                    <div className="text-xs text-muted flex items-center gap-1">
                       <Heart className={`w-3.5 h-3.5 ${p.status === 'danger' ? 'text-red-500 animate-ping' : 'text-emerald-500 animate-pulse'}`} /> 
                       Pulse Rate
                     </div>
-                    <div className={`text-xl font-extrabold ${p.status === 'danger' ? 'text-red-400' : 'text-gray-200'}`}>
-                      {p.hr} <span className="text-xs font-normal text-gray-500">BPM</span>
+                    <div className={`text-xl font-extrabold ${p.status === 'danger' ? 'text-red-600 dark:text-red-400' : 'text-foreground'}`}>
+                      {p.hr} <span className="text-xs font-normal text-muted">BPM</span>
                     </div>
                   </div>
 
                   {/* SpO2 */}
                   <div className="space-y-1">
-                    <div className="text-xs text-gray-500">O2 Saturation (SpO2)</div>
-                    <div className={`text-xl font-extrabold ${p.spo2 < 93 ? 'text-red-400' : p.spo2 < 95 ? 'text-yellow-400' : 'text-emerald-400'}`}>
+                    <div className="text-xs text-muted">O2 Saturation (SpO2)</div>
+                    <div className={`text-xl font-extrabold ${p.spo2 < 93 ? 'text-red-600 dark:text-red-400' : p.spo2 < 95 ? 'text-yellow-600 dark:text-yellow-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
                       {p.spo2}%
                     </div>
-                    <div className="w-full bg-black/40 h-1.5 rounded-full overflow-hidden">
+                    <div className="w-full bg-foreground/10 h-1.5 rounded-full overflow-hidden">
                       <div 
                         className={`h-full rounded-full ${p.spo2 < 93 ? 'bg-red-500' : 'bg-emerald-500'}`} 
                         style={{ width: `${p.spo2}%` }}
@@ -158,34 +158,34 @@ export default function HospitalManagement() {
 
                   {/* BP */}
                   <div className="space-y-1">
-                    <div className="text-xs text-gray-500">Blood Pressure</div>
-                    <div className="text-sm font-bold text-gray-300">{p.bp} <span className="text-xxs font-normal text-gray-500">mmHg</span></div>
+                    <div className="text-xs text-muted">Blood Pressure</div>
+                    <div className="text-sm font-bold text-foreground/90">{p.bp} <span className="text-[10px] font-normal text-muted">mmHg</span></div>
                   </div>
 
                   {/* Temp */}
                   <div className="space-y-1">
-                    <div className="text-xs text-gray-500">Temperature</div>
-                    <div className={`text-sm font-bold ${p.temp > 38.0 ? 'text-yellow-400' : 'text-gray-300'}`}>
+                    <div className="text-xs text-muted">Temperature</div>
+                    <div className={`text-sm font-bold ${p.temp > 38.0 ? 'text-yellow-600 dark:text-yellow-400' : 'text-foreground/90'}`}>
                       {p.temp.toFixed(1)}°C
                     </div>
                   </div>
                 </div>
 
                 {/* Patient actions */}
-                <div className="mt-4 pt-4 border-t border-white/5 flex gap-2 justify-end">
+                <div className="mt-4 pt-4 border-t border-border flex gap-2 justify-end">
                   <button 
                     onClick={() => {
                       setScanType(p.bed.startsWith('ICU') ? 'MRI Brain Scan' : 'Chest CT Scan');
                       startDICOMScan(p.id, scanType);
                     }}
                     disabled={dicomScan.scanning}
-                    className="px-2.5 py-1 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 rounded text-xxs font-bold transition-all flex items-center gap-1"
+                    className="px-2.5 py-1 bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/20 rounded text-[10px] font-bold transition-all flex items-center gap-1"
                   >
                     <FileImage className="w-3 h-3" /> DICOM Scan
                   </button>
                   <button 
                     onClick={() => dischargePatient(p.id)}
-                    className="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 rounded text-xxs font-bold transition-all"
+                    className="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/20 rounded text-[10px] font-bold transition-all"
                   >
                     Discharge
                   </button>
@@ -195,27 +195,27 @@ export default function HospitalManagement() {
           </div>
 
           {/* PACS Imaging Panel (Interactive) */}
-          <div className="glass-panel p-6 rounded-xl border border-white/10 relative overflow-hidden">
+          <div className="glass-panel p-6 rounded-xl border border-border relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-3xl rounded-full"></div>
-            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-blue-400">
+            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-blue-600 dark:text-blue-400">
               <FileImage className="w-5 h-5" /> PACS DICOM Diagnostic Imaging Viewer
             </h3>
 
             {dicomScan.scanning ? (
               <div className="py-8 flex flex-col items-center justify-center space-y-4">
-                <Loader2 className="w-12 h-12 text-blue-400 animate-spin" />
+                <Loader2 className="w-12 h-12 text-blue-500 dark:text-blue-400 animate-spin" />
                 <div className="text-center">
-                  <div className="font-bold text-gray-200">Executing Clinical Imaging Scan</div>
-                  <div className="text-xs text-gray-500 mt-1">Acquiring magnetic slices, establishing handshake...</div>
+                  <div className="font-bold text-foreground">Executing Clinical Imaging Scan</div>
+                  <div className="text-xs text-muted mt-1">Acquiring magnetic slices, establishing handshake...</div>
                 </div>
-                <div className="w-64 bg-black/50 border border-white/10 rounded-full h-2">
+                <div className="w-64 bg-foreground/10 border border-border rounded-full h-2">
                   <div className="bg-blue-500 h-full rounded-full transition-all duration-300" style={{ width: `${dicomScan.progress}%` }}></div>
                 </div>
               </div>
             ) : dicomScan.result ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                 {/* Visual SVG scan render */}
-                <div className="bg-black/80 aspect-square rounded-lg border border-white/10 flex items-center justify-center p-4 relative">
+                <div className="bg-slate-950 aspect-square rounded-lg border border-border flex items-center justify-center p-4 relative">
                   <span className="absolute top-2 left-2 text-[10px] font-mono text-blue-400">PACS-MR-v1.4</span>
                   <span className="absolute top-2 right-2 text-[10px] font-mono text-gray-500">Slice: 42/90</span>
                   
@@ -248,41 +248,41 @@ export default function HospitalManagement() {
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <div className="text-xs text-gray-500 uppercase font-semibold">Active Scan Object</div>
-                    <div className="text-xl font-bold text-gray-200">{scanType}</div>
-                    <div className="font-mono text-xs text-blue-400 mt-1">{dicomScan.result}</div>
+                    <div className="text-xs text-muted uppercase font-semibold">Active Scan Object</div>
+                    <div className="text-xl font-bold text-foreground">{scanType}</div>
+                    <div className="font-mono text-xs text-blue-600 dark:text-blue-400 mt-1">{dicomScan.result}</div>
                   </div>
 
-                  <div className="p-3 bg-black/40 rounded-lg border border-white/5 space-y-1.5 text-xs">
+                  <div className="p-3 bg-card rounded-lg border border-border space-y-1.5 text-xs">
                     <div className="flex justify-between">
-                      <span className="text-gray-500">Modality:</span>
-                      <span className="text-gray-300 font-bold">{scanType.split(' ')[0]} (Diagnostic)</span>
+                      <span className="text-muted">Modality:</span>
+                      <span className="text-foreground/90 font-bold">{scanType.split(' ')[0]} (Diagnostic)</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500">Target Patient:</span>
-                      <span className="text-gray-300">
+                      <span className="text-muted">Target Patient:</span>
+                      <span className="text-foreground/90">
                         {patients.find(p => p.id === dicomScan.activePatientId)?.name || 'Unknown Patient'}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500">PACS Queue status:</span>
-                      <span className="text-emerald-400 font-semibold">Synced OK</span>
+                      <span className="text-muted">PACS Queue status:</span>
+                      <span className="text-emerald-500 font-semibold">Synced OK</span>
                     </div>
                   </div>
 
                   <button 
-                    onClick={() => setDicomScan(prev => ({ ...prev, result: null }))}
-                    className="w-full py-2 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded text-xs transition-colors"
+                    onClick={() => startDICOMScan(null, null)} // resets result in state
+                    className="w-full py-2 bg-foreground/10 hover:bg-foreground/20 text-foreground font-bold rounded text-xs transition-colors"
                   >
                     Clear Diagnostics Viewer
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="py-12 border border-dashed border-white/10 rounded-lg flex flex-col items-center justify-center text-gray-500">
-                <FileImage className="w-12 h-12 mb-3 opacity-20 text-blue-400" />
-                <p className="text-sm">No active DICOM scan loaded.</p>
-                <p className="text-xs mt-1 text-gray-600">Click "DICOM Scan" on any patient card above to begin imaging diagnostics.</p>
+              <div className="py-12 border border-dashed border-border rounded-lg flex flex-col items-center justify-center text-muted">
+                <FileImage className="w-12 h-12 mb-3 opacity-20 text-blue-500 dark:text-blue-400" />
+                <p className="text-sm text-foreground/80">No active DICOM scan loaded.</p>
+                <p className="text-xs mt-1 text-muted">Click "DICOM Scan" on any patient card above to begin imaging diagnostics.</p>
               </div>
             )}
           </div>
@@ -291,42 +291,42 @@ export default function HospitalManagement() {
         {/* Right Side: Admissions form, Roster & Bed occupancies */}
         <div className="space-y-6">
           {/* Admissions Form */}
-          <div className="glass-panel p-6 rounded-xl border border-white/10">
-            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-emerald-400">
+          <div className="glass-panel p-6 rounded-xl border border-border">
+            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
               <UserPlus className="w-5 h-5" /> Patient Intake (Admit Patient)
             </h3>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-400 mb-1">Full Name</label>
+                <label className="block text-xs font-semibold text-muted mb-1">Full Name</label>
                 <input 
                   type="text" 
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
                   placeholder="e.g. John Doe"
-                  className="w-full bg-black/60 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-background border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-1">Age</label>
+                  <label className="block text-xs font-semibold text-muted mb-1">Age</label>
                   <input 
                     type="number" 
                     value={formData.age}
                     onChange={e => setFormData({ ...formData, age: e.target.value })}
                     placeholder="45"
-                    className="w-full bg-black/60 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-background border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-1">Bed Allocation</label>
+                  <label className="block text-xs font-semibold text-muted mb-1">Bed Allocation</label>
                   <select 
                     value={formData.bed}
                     onChange={e => setFormData({ ...formData, bed: e.target.value })}
-                    className="w-full bg-black/60 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-background border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
                   >
                     <option value="ICU-101">ICU-101</option>
                     <option value="ICU-102">ICU-102</option>
@@ -339,34 +339,34 @@ export default function HospitalManagement() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-400 mb-1">Primary Diagnosis / Condition</label>
+                <label className="block text-xs font-semibold text-muted mb-1">Primary Diagnosis / Condition</label>
                 <input 
                   type="text" 
                   value={formData.condition}
                   onChange={e => setFormData({ ...formData, condition: e.target.value })}
                   placeholder="e.g. Respiratory failure"
-                  className="w-full bg-black/60 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-background border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-1">Init BP (mmHg)</label>
+                  <label className="block text-xs font-semibold text-muted mb-1">Init BP (mmHg)</label>
                   <input 
                     type="text" 
                     value={formData.bp}
                     onChange={e => setFormData({ ...formData, bp: e.target.value })}
-                    className="w-full bg-black/60 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-background border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-1">Init Temp (°C)</label>
+                  <label className="block text-xs font-semibold text-muted mb-1">Init Temp (°C)</label>
                   <input 
                     type="text" 
                     value={formData.temp}
                     onChange={e => setFormData({ ...formData, temp: e.target.value })}
-                    className="w-full bg-black/60 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-background border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
                   />
                 </div>
               </div>
@@ -381,11 +381,11 @@ export default function HospitalManagement() {
           </div>
 
           {/* Active Wards bed occupancy grid */}
-          <div className="glass-panel p-6 rounded-xl border border-white/10">
+          <div className="glass-panel p-6 rounded-xl border border-border">
             <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-              <Layers className="w-5 h-5 text-purple-400" /> Ward Beds Allocation Matrix
+              <Layers className="w-5 h-5 text-purple-600 dark:text-purple-400" /> Ward Beds Allocation Matrix
             </h3>
-            <p className="text-xs text-gray-400 mb-4">Clicking highlights allocated EMR databases endpoints.</p>
+            <p className="text-xs text-muted mb-4">Clicking highlights allocated EMR databases endpoints.</p>
 
             <div className="grid grid-cols-4 gap-2">
               {['ICU-101', 'ICU-102', 'ICU-104', 'ICU-108', 'WARD-202', 'WARD-205', 'PED-214', 'CAR-301'].map(bed => {
@@ -401,9 +401,9 @@ export default function HospitalManagement() {
                     className={`p-2 rounded border text-center cursor-pointer transition-all ${
                       occupancy 
                         ? occupancy.status === 'danger'
-                          ? 'bg-red-500/20 border-red-500/50 text-red-400'
-                          : 'bg-purple-500/20 border-purple-500/50 text-purple-300'
-                        : 'bg-green-500/10 border-green-500/20 hover:border-green-500/50 text-green-400'
+                          ? 'bg-red-500/20 border-red-500/50 text-red-600 dark:text-red-400'
+                          : 'bg-purple-500/20 border-purple-500/50 text-purple-600 dark:text-purple-300'
+                        : 'bg-green-500/10 border-green-500/20 hover:border-green-500/50 text-green-600 dark:text-green-400'
                     }`}
                   >
                     <div className="text-[10px] font-bold font-mono">{bed}</div>
@@ -415,29 +415,29 @@ export default function HospitalManagement() {
           </div>
 
           {/* On-Duty Medical Roster */}
-          <div className="glass-panel p-6 rounded-xl border border-white/10">
+          <div className="glass-panel p-6 rounded-xl border border-border">
             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-blue-400" /> On-Duty Clinician Roster
+              <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" /> On-Duty Clinician Roster
             </h3>
             
             <div className="space-y-3">
               {doctors.map(d => (
-                <div key={d.id} className="flex justify-between items-center text-xs pb-2 border-b border-white/5">
+                <div key={d.id} className="flex justify-between items-center text-xs pb-2 border-b border-border">
                   <div>
-                    <div className="font-bold text-gray-200">{d.name}</div>
-                    <div className="text-gray-500 text-[10px]">{d.specialty}</div>
+                    <div className="font-bold text-foreground">{d.name}</div>
+                    <div className="text-muted text-[10px]">{d.specialty}</div>
                   </div>
                   <div className="text-right">
                     <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase ${
                       d.status === 'On-Duty' 
-                        ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
+                        ? 'bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20' 
                         : d.status === 'On-Call'
-                        ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
-                        : 'bg-gray-500/10 text-gray-500'
+                        ? 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20'
+                        : 'bg-gray-500/10 text-muted border border-border'
                     }`}>
                       {d.status}
                     </span>
-                    <div className="text-gray-500 font-mono text-[9px] mt-1">Pager: {d.pager}</div>
+                    <div className="text-muted font-mono text-[9px] mt-1">Pager: {d.pager}</div>
                   </div>
                 </div>
               ))}
