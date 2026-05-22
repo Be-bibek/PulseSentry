@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #09090b;
+    --foreground: #fafafa;
+    
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    
+    --success: #10b981;
+    --warning: #f59e0b;
+    --destructive: #ef4444;
+
+    --card: #18181b;
+    --border: #27272a;
+  }
+  
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)] antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+.glass-panel {
+  @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-xl;
+}
+
+.glowing-text {
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.chart-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw 2s ease-out forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
